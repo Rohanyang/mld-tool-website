@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLD TOOLING | Facility & Address</title>
+    <meta name="description" content="Huizhou MLD Tooling - Professional Stamping Die Manufacturer located in Shiwan, Boluo, Huizhou.">
+    
+    <!-- 引入高端字体库 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;700&family=Syncopate:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- 图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        /* --- 0. 全局变量与重置 --- */
+        :root {
+            --bg-dark: #050505;
+            --text-light: #e0e0e0;
+            --accent: #00f2ea;
+            --accent-dim: rgba(0, 242, 234, 0.1);
+            --font-main: 'Manrope', 'Noto Sans SC', sans-serif;
+            --font-display: 'Syncopate', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        html { scroll-behavior: auto; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 噪音纹理层 */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+            pointer-events: none; z-index: 9000; opacity: 0.4;
+        }
+
+        /* --- 1. 自定义光标 --- */
+        .cursor-dot, .cursor-circle {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--accent); }
+        .cursor-circle {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+        body.hovered .cursor-circle {
+            width: 80px; height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- 2. Canvas 背景 --- */
+        #webgl-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.6;
+        }
+
+        /* --- 3. 导航栏 --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 30px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; mix-blend-mode: difference;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 700; font-size: 20px; letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: #fff;
+        }
+        .logo i { color: var(--accent); font-size: 24px; }
+        
+        .nav-menu { display: flex; gap: 40px; align-items: center; }
+        .nav-link {
+            font-family: var(--font-display);
+            font-size: 12px; letter-spacing: 1px;
+            text-decoration: none; color: #fff;
+            position: relative; transition: color 0.3s;
+            text-transform: uppercase;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px;
+            background: var(--accent); transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .nav-link:hover { color: var(--accent); }
+        .nav-link:hover::after { width: 100%; }
+
+        /* --- 4. 页面通用布局类 --- */
+        .section-padding { padding: 120px 10vw; border-top: 1px solid rgba(255,255,255,0.08); }
+        .section-header { margin-bottom: 60px; }
+        .section-title { font-family: var(--font-display); font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+        .section-title span { color: var(--accent); }
+        .text-desc { color: #aaa; line-height: 1.8; font-size: 15px; font-weight: 300; }
+
+        /* --- 5. Hero Section --- */
+        .fac-hero {
+            height: 70vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 10vw;
+            position: relative;
+            margin-top: 80px;
+        }
+        .fac-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(40px, 6vw, 100px);
+            line-height: 1;
+            color: #fff;
+            margin-bottom: 40px;
+        }
+        .fac-hero-sub {
+            border-left: 2px solid var(--accent);
+            padding-left: 30px;
+            color: #ccc;
+            font-size: 16px;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+        .fac-hero-sub strong { color: #fff; font-weight: 400; }
+
+        /* --- 6. Address & Map Section --- */
+        .address-grid {
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px;
+            align-items: flex-start;
+        }
+        .info-card {
+            padding: 40px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left: 3px solid var(--accent);
+        }
+        .info-item { margin-bottom: 30px; }
+        .info-item h5 { 
+            font-family: var(--font-display); font-size: 12px; color: var(--accent); 
+            margin-bottom: 10px; letter-spacing: 1px; 
+        }
+        .info-item p { color: #e0e0e0; font-size: 16px; line-height: 1.5; }
+        .info-item i { margin-right: 10px; color: #888; }
+
+        /* Google Map 容器 */
+        .map-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        /* 
+           Google Map 深色反转滤镜
+        */
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: invert(90%) hue-rotate(180deg) contrast(90%);
+        }
+
+        /* --- 7. Workshop Overview --- */
+        .workshop-grid {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px;
+            align-items: center;
+        }
+        .ws-text { align-self: center; }
+        
+        .ws-gallery-single {
+            width: 100%;
+            position: relative;
+        }
+        .ws-card-lg {
+            position: relative;
+            width: 100%;
+        }
+        
+        .ws-img-box-lg {
+            width: 100%; 
+            height: 450px; 
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden; 
+            margin-bottom: 15px;
+        }
+        .ws-img-box-lg img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%); transition: 0.8s ease;
+        }
+        .ws-card-lg:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        .ws-card-lg h5 { 
+            font-family: var(--font-display); font-size: 14px; 
+            color: #fff; letter-spacing: 1px; border-left: 2px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        /* --- 8. Equipment Highlights --- */
+        .equipment-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+        }
+        .eq-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px 20px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .eq-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .eq-icon {
+            font-size: 32px; color: var(--accent); margin-bottom: 20px;
+            display: inline-block;
+        }
+        .eq-card h4 {
+            font-family: var(--font-display); font-size: 16px; color: #fff; margin-bottom: 15px;
+        }
+        .eq-list { list-style: none; }
+        .eq-list li {
+            font-size: 13px; color: #888; margin-bottom: 8px;
+            padding-left: 15px; position: relative;
+        }
+        .eq-list li::before {
+            content: ''; position: absolute; left: 0; top: 6px;
+            width: 4px; height: 4px; background: #444;
+        }
+        .eq-card:hover .eq-list li::before { background: var(--accent); }
+
+        /* --- Footer --- */
+        footer {
+            padding: 80px 10vw 40px;
+            background: #020202;
+            text-align: center; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-cta h2 { font-family: var(--font-display); font-size: 4vw; margin-bottom: 30px; color: #fff; }
+        .footer-contact { display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap; }
+        .fc-item { display: flex; align-items: center; gap: 10px; color: #888; font-size: 14px; }
+        .copyright { font-size: 12px; color: #444; text-transform: uppercase; }
+
+        /* --- 响应式 --- */
+        @media(max-width: 768px) {
+            header { padding: 20px 30px; }
+            .nav-menu { display: none; }
+            .section-padding { padding: 80px 6vw; }
+            
+            .fac-hero { height: auto; padding: 100px 6vw 60px; }
+            .fac-hero h1 { font-size: 12vw; margin-bottom: 30px; }
+            
+            .address-grid { grid-template-columns: 1fr; gap: 40px; }
+            
+            .workshop-grid { grid-template-columns: 1fr; gap: 40px; }
+            .ws-img-box-lg { height: 250px; } 
+            
+            .equipment-grid { grid-template-columns: 1fr; gap: 20px; }
+            
+            .footer-contact { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 噪音层 -->
+    <div class="noise-overlay"></div>
+
+    <!-- 自定义光标 -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <!-- Canvas 背景 -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- 导航 -->
+    <header class="hover-trigger">
+        <a href="index.html" class="logo hover-trigger">
+            <i class="ri-settings-4-fill"></i>
+            MLD TOOLING
+        </a>
+        
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link hover-trigger">HOME</a>
+            <a href="index.html#solutions" class="nav-link hover-trigger">SOLUTIONS</a>
+            <a href="index.html#capabilities" class="nav-link hover-trigger">CAPABILITIES</a>
+            <a href="#contact" class="nav-link hover-trigger" onclick="lenis.scrollTo('#contact')">CONTACT</a>
+        </nav>
+    </header>
+
+    <!-- 1. Hero 区域 -->
+    <section class="fac-hero">
+        <h1 class="hover-trigger">FACILITY <span style="color:var(--accent)">&</span><br>ADDRESS</h1>
+        <div class="fac-hero-sub hover-trigger">
+            <strong>Huizhou MLD Tooling – 12,000㎡ stamping tool shop in South China.</strong><br>
+            位于华南的 12,000㎡ 冲压模具工厂，靠近深圳与广州港口。
+        </div>
+    </section>
+
+    <!-- 2. Address & Contact Block -->
+    <section class="section-padding address-section">
+        <div class="address-grid">
+            <!-- 左侧信息 -->
+            <div class="info-card hover-trigger">
+                <div class="section-header" style="margin-bottom: 30px;">
+                    <h3 class="section-title" style="font-size: 24px;">PLANT LOCATION</h3>
+                </div>
+                
+                <div class="info-item">
+                    <h5>COMPANY NAME</h5>
+                    <p>Huizhou MLD Tooling Co., Ltd.</p>
+                </div>
+                <div class="info-item">
+                    <h5>ADDRESS</h5>
+                    <p>
+                        L-shaped Factory, Xique High-tech Park,<br>
+                        Shahe Jiangdi Rd, Liwu, Shiwan Town,<br>
+                        Boluo County, Huizhou, Guangdong, China.
+                    </p>
+                    <p style="margin-top: 15px; font-size: 14px; color: #888; font-family: 'Noto Sans SC';">
+                        广东省惠州市博罗县石湾镇<br>
+                        李屋沙河江堤路 喜鹊高新科技园 (七字型厂房)
+                    </p>
+                </div>
+                <div class="info-item">
+                    <h5>CONTACT</h5>
+                    <p><i class="ri-mail-send-line"></i> rohan@mld-tool.com</p>
+                    <p><i class="ri-phone-line"></i> +86 136 2266 6236</p>
+                </div>
+            </div>
+
+            <!-- 右侧 Google Map -->
+            <div class="map-wrapper hover-trigger">
+                <!-- 
+                   UPDATED: 使用具体经纬度坐标 (23.142005, 113.909123)
+                -->
+                <iframe 
+                    src="https://maps.google.com/maps?q=23.142005,113.909123&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Workshop Overview -->
+    <section class="section-padding workshop-section">
+        <div class="workshop-grid">
+            <!-- 左侧文字 -->
+            <div class="ws-text hover-trigger">
+                <h2 class="section-title">WORKSHOP<br><span>OVERVIEW</span></h2>
+                <div class="text-desc">
+                    <p style="margin-bottom: 20px;">
+                        Our facility spans <strong>12,000 square meters</strong>, strategically divided into high-precision machining, assembly, tryout, and quality inspection zones.
+                    </p>
+                    <p>
+                        Designed for efficiency, the workshop features overhead cranes with up to <strong>50T capacity</strong>, ensuring safe handling of large automotive panels and transfer dies.
+                    </p>
+                    <p style="margin-top: 20px; font-size: 14px;">
+                        厂区占地 12,000 平方米，合理划分为精密加工、装配、试模及质检区域。配备 50 吨行车，确保大型汽车覆盖件模具的安全周转。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 右侧：公司大门 Overview 照片占位 -->
+            <div class="ws-gallery-single">
+                <div class="ws-card-lg hover-trigger">
+                    <div class="ws-img-box-lg">
+                        <img src="img/overview.jpg" alt="Huizhou MLD Tooling Company Gate">
+                    </div>
+                    <h5>Factory Gate & Main Building (Company Overview)</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Equipment Highlight -->
+    <section class="section-padding equipment-section">
+        <div class="section-header">
+            <h2 class="section-title">EQUIPMENT <span>HIGHLIGHTS</span></h2>
+        </div>
+        
+        <div class="equipment-grid">
+            <div class="eq-card hover-trigger">
+                <i class="ri-hammer-line eq-icon"></i>
+                <h4>TRYOUT PRESS</h4>
+                <ul class="eq-list">
+                    <li>YANGLI TE4-2000T (4.5m x 2.5m)</li>
+                    <li>800T Hydraulic Press</li>
+                    <li>600T Mechanical Press</li>
+                    <li>Feeder for Progressive Dies</li>
+                </ul>
+            </div>
+
+            <div class="eq-card hover-trigger">
+                <i class="ri-cpu-line eq-icon"></i>
+                <h4>MACHINING</h4>
+                <ul class="eq-list">
+                    <li>Large Gantry CNC (4m x 3m)</li>
+                    <li>5-Axis High Speed CNC</li>
+                    <li>Sodick Wire-Cut EDM</li>
+                    <li>Precision Surface Grinder</li>
+                </ul>
+            </div>
+
+            <div class="eq-card hover-trigger">
+                <i class="ri-microscope-line eq-icon"></i>
+                <h4>INSPECTION</h4>
+                <ul class="eq-list">
+                    <li>Hexagon CMM (3000mm)</li>
+                    <li>Blue Light Scanner</li>
+                    <li>Hardness Tester</li>
+                    <li>2D Profile Projector</li>
+                </ul>
+            </div>
+
+            <div class="eq-card hover-trigger">
+                <i class="ri-truck-line eq-icon"></i>
+                <h4>SUPPORTING</h4>
+                <ul class="eq-list">
+                    <li>50T Overhead Cranes</li>
+                    <li>20T/10T Cranes</li>
+                    <li>Heavy Duty Forklifts</li>
+                    <li>Sandblasting Room</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-cta">
+            <p style="color: var(--accent); margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase;">Ready to Visit?</p>
+            <h2>LET'S BUILD <br> YOUR TOOLING.</h2>
+            
+            <div class="footer-contact">
+                <div class="fc-item"><i class="ri-mail-send-line"></i> rohan@mld-tool.com</div>
+                <div class="fc-item"><i class="ri-phone-line"></i> +86 136 2266 6236</div>
+                <div class="fc-item"><i class="ri-map-pin-line"></i> Huizhou, Guangdong</div>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 HUIZHOU MLD TOOLING CO., LTD.
+        </div>
+    </footer>
+
+    <!-- 脚本库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // --- 1. 基础初始化 ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        const lenis = new Lenis({
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+            smoothTouch: false, 
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- 2. 自定义光标逻辑 ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 });
+        });
+
+        gsap.ticker.add(() => {
+            const dt = 1.0 - Math.pow(1.0 - 0.15, gsap.ticker.deltaRatio());
+            cursorX += (mouseX - cursorX) * dt;
+            cursorY += (mouseY - cursorY) * dt;
+            gsap.set(cursorCircle, { x: cursorX, y: cursorY });
+        });
+
+        const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button');
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+        });
+
+        // --- 3. Canvas 背景 ---
+        const canvas = document.getElementById('webgl-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function initCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 1.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles() {
+            particles = [];
+            const count = width > 768 ? 80 : 40; 
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 242, 234, ${0.15 - distance/1000})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', () => { initCanvas(); createParticles(); });
+        initCanvas();
+        createParticles();
+        animateCanvas();
+
+        // --- 4. 动画逻辑 ---
+        gsap.from(".fac-hero h1", { opacity: 0, y: 50, duration: 1, delay: 0.2, ease: "power3.out" });
+        gsap.from(".fac-hero-sub", { opacity: 0, x: -20, duration: 1, delay: 0.5, ease: "power3.out" });
+
+        const sections = document.querySelectorAll('section');
+        sections.forEach(sec => {
+            gsap.from(sec.children, {
+                opacity: 0, y: 30, duration: 0.8, stagger: 0.2,
+                scrollTrigger: {
+                    trigger: sec, start: "top 80%",
+                }
+            });
+        });
+    </script>
+</body>
+</html>

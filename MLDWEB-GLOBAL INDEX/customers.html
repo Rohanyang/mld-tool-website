@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLD TOOLING | Key Customers & Case Studies</title>
+    <meta name="description" content="Trusted by global Tier 1 suppliers. Explore our automotive stamping die case studies and global export footprint.">
+    
+    <!-- 引入字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;700&family=Syncopate:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- 图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        /* --- 0. 全局变量与重置 --- */
+        :root {
+            --bg-dark: #050505;
+            --text-light: #e0e0e0;
+            --accent: #00f2ea;
+            --accent-dim: rgba(0, 242, 234, 0.1);
+            --font-main: 'Manrope', 'Noto Sans SC', sans-serif;
+            --font-display: 'Syncopate', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        html { scroll-behavior: auto; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 噪音与背景 */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+            pointer-events: none; z-index: 9000; opacity: 0.4;
+        }
+        #webgl-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.6;
+        }
+
+        /* 光标 */
+        .cursor-dot, .cursor-circle {
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--accent); }
+        .cursor-circle {
+            width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+        body.hovered .cursor-circle {
+            width: 80px; height: 80px; background: rgba(255, 255, 255, 0.1);
+            border-color: transparent; backdrop-filter: blur(2px);
+        }
+
+        /* --- 导航栏 --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; mix-blend-mode: difference;
+        }
+        .logo {
+            font-family: var(--font-display); font-weight: 700; font-size: 20px; 
+            letter-spacing: 2px; text-transform: uppercase; text-decoration: none; 
+            color: #fff; display: flex; align-items: center; gap: 10px;
+        }
+        .logo i { color: var(--accent); font-size: 24px; }
+        .nav-menu { display: flex; gap: 40px; }
+        .nav-link {
+            font-family: var(--font-display); font-size: 12px; letter-spacing: 1px;
+            text-decoration: none; color: #fff; position: relative; text-transform: uppercase;
+        }
+        .nav-link:hover { color: var(--accent); }
+
+        /* --- 通用布局 --- */
+        .section-padding { padding: 120px 10vw; border-top: 1px solid rgba(255,255,255,0.08); }
+        .section-title { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: #fff; margin-bottom: 20px; line-height: 1.1; }
+        .section-title span { color: var(--accent); }
+        .section-subtitle { color: #888; font-size: 16px; max-width: 600px; line-height: 1.6; margin-bottom: 60px; }
+
+        /* --- 1. Hero Section --- */
+        .case-hero {
+            height: 60vh; display: flex; flex-direction: column; justify-content: center;
+            padding: 0 10vw; margin-top: 80px;
+        }
+        .case-hero h1 {
+            font-family: var(--font-display); font-size: clamp(40px, 6vw, 90px);
+            line-height: 1; color: #fff; margin-bottom: 30px;
+        }
+        .case-hero p {
+            border-left: 2px solid var(--accent); padding-left: 20px;
+            color: #ccc; font-size: 18px; max-width: 700px;
+        }
+
+        /* --- 2. Global Dashboard Section (Redesigned) --- */
+        .global-section {
+            position: relative;
+            padding: 100px 10vw;
+            overflow: hidden;
+        }
+        /* 背景纹理地图 (仅作装饰，不负责对齐) */
+        .map-bg-texture {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; max-width: 1400px; opacity: 0.1; pointer-events: none;
+            filter: invert(1); z-index: 0;
+        }
+
+        /* 区域卡片网格 */
+        .regions-grid {
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px;
+            position: relative; z-index: 2;
+        }
+
+        .region-card {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 卡片悬停效果：边框变色，轻微上浮 */
+        .region-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 242, 234, 0.05);
+        }
+        /* 顶部装饰条 */
+        .region-card::before {
+            content: ''; position: absolute; top: 0; left: 0; 
+            width: 0; height: 2px; background: var(--accent);
+            transition: width 0.4s ease;
+        }
+        .region-card:hover::before { width: 100%; }
+
+        .region-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+        .region-title {
+            font-family: var(--font-display); font-size: 18px; color: #fff; letter-spacing: 1px;
+        }
+        .region-icon {
+            font-size: 24px; color: var(--accent);
+        }
+
+        /* 国家列表 */
+        .country-list {
+            list-style: none; display: flex; flex-direction: column; gap: 12px;
+        }
+        .country-item {
+            display: flex; align-items: center; gap: 10px;
+            color: #aaa; font-size: 14px; transition: 0.3s;
+        }
+        .country-item::before {
+            content: ''; width: 4px; height: 4px; background: #333;
+            transition: 0.3s;
+        }
+        /* 列表悬停 */
+        .region-card:hover .country-item { color: #fff; }
+        .region-card:hover .country-item::before { background: var(--accent); }
+        
+        /* 突出显示 (HQ) */
+        .highlight-item {
+            color: #fff; font-weight: 700;
+        }
+        .highlight-item i { color: var(--accent); margin-right: 5px; }
+
+        /* --- 3. Key Customers --- */
+        .customers-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px;
+        }
+        .client-card {
+            height: 120px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .client-card:hover { border-color: var(--accent); background: rgba(0, 242, 234, 0.02); }
+        .client-logo-text {
+            font-family: var(--font-display); font-size: 14px; color: #666; font-weight: 700;
+        }
+        .industry-tag {
+            position: absolute; bottom: 10px; font-size: 10px; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+        }
+        .nda-notice {
+            margin-top: 20px; font-size: 13px; color: #555; text-align: center; font-style: italic;
+        }
+
+        /* --- 4. Case Studies --- */
+        .case-list { display: flex; flex-direction: column; gap: 100px; }
+        .case-item {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+        .case-item.reverse { direction: rtl; } 
+        .case-item.reverse .case-content { direction: ltr; }
+        
+        .case-img-box {
+            position: relative; width: 100%; height: 400px;
+            background: #111; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .case-img-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%); transition: 0.5s;
+        }
+        .case-item:hover .case-img-box img { filter: grayscale(0%); transform: scale(1.05); }
+        
+        .case-header { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+        .case-tag {
+            display: inline-block; padding: 5px 10px; background: var(--accent-dim);
+            color: var(--accent); font-size: 12px; margin-bottom: 10px; border: 1px solid var(--accent);
+        }
+        .case-title { font-family: var(--font-display); font-size: 24px; color: #fff; }
+        
+        .case-details { display: flex; flex-direction: column; gap: 15px; }
+        .detail-row { display: flex; gap: 15px; }
+        .detail-icon { color: var(--accent); font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+        .detail-text h5 { color: #fff; font-size: 14px; margin-bottom: 5px; opacity: 0.9; }
+        .detail-text p { color: #888; font-size: 14px; line-height: 1.5; }
+
+        /* --- 5. Why MLD & Testimonials --- */
+        .why-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 80px;
+        }
+        .why-card {
+            padding: 30px 20px; background: #0a0a0a; border-top: 2px solid #333;
+            transition: 0.3s;
+        }
+        .why-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .why-card i { font-size: 32px; color: #fff; margin-bottom: 15px; display: block; }
+        .why-card h4 { color: var(--accent); margin-bottom: 10px; font-family: var(--font-display); font-size: 14px; }
+        .why-card p { font-size: 13px; color: #777; line-height: 1.5; }
+
+        .testimonial-block { margin-top: 60px; }
+        .testimonial-box {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+            padding: 40px; border-left: 4px solid var(--accent);
+        }
+        .quote-text { font-size: 18px; color: #ddd; font-style: italic; margin-bottom: 20px; line-height: 1.6; }
+        .quote-author { font-family: var(--font-display); font-size: 14px; color: #fff; }
+        .quote-role { font-size: 12px; color: #666; }
+
+        /* --- Footer --- */
+        footer {
+            padding: 80px 10vw 40px; background: #020202; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-cta h2 { font-family: var(--font-display); font-size: 4vw; margin-bottom: 30px; color: #fff; }
+        .copyright { font-size: 12px; color: #444; }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            .nav-menu { display: none; }
+            .case-hero h1 { font-size: 12vw; }
+            .regions-grid { grid-template-columns: 1fr; gap: 20px; }
+            .customers-grid, .why-grid { grid-template-columns: 1fr 1fr; }
+            .case-item, .case-item.reverse { grid-template-columns: 1fr; gap: 30px; direction: ltr; }
+            .case-item.reverse .case-content { direction: ltr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Navigation -->
+    <header class="hover-trigger">
+        <a href="index.html" class="logo hover-trigger">
+            <i class="ri-settings-4-fill"></i> MLD TOOLING
+        </a>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link hover-trigger">HOME</a>
+            <a href="index.html#solutions" class="nav-link hover-trigger">SOLUTIONS</a>
+            <a href="index.html#capabilities" class="nav-link hover-trigger">CAPABILITIES</a>
+            <a href="index.html#contact" class="nav-link hover-trigger">CONTACT</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="case-hero">
+        <h1 class="hover-trigger">PARTNERS <span style="color:var(--accent)">&</span><br>SUCCESS</h1>
+        <p class="hover-trigger">
+            Trusted by global Tier 1 suppliers across 10+ countries. <br>
+            Engineering excellence in Transfer Dies, Progressive Dies, and Checking Fixtures.
+        </p>
+    </section>
+
+    <!-- Global Dashboard (New Design: Region Cards) -->
+    <section class="global-section">
+        <div class="section-padding" style="padding-left:0; padding-right:0; border-top:none;">
+            <h2 class="section-title">GLOBAL <span>FOOTPRINT</span></h2>
+            <div class="section-subtitle">We deliver tooling solutions from Huizhou to the world.</div>
+        </div>
+
+        <!-- 装饰性背景图 -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/World_map_blank_gmt.svg" class="map-bg-texture" alt="World Map Texture">
+
+        <div class="regions-grid">
+            <!-- Region 1: Americas -->
+            <div class="region-card hover-trigger">
+                <div class="region-header">
+                    <span class="region-title">AMERICAS</span>
+                    <i class="ri-global-line region-icon"></i>
+                </div>
+                <ul class="country-list">
+                    <li class="country-item">USA</li>
+                    <li class="country-item">Canada</li>
+                    <li class="country-item">Mexico</li>
+                    <li class="country-item">Brazil</li>
+                </ul>
+            </div>
+
+            <!-- Region 2: EMEA -->
+            <div class="region-card hover-trigger">
+                <div class="region-header">
+                    <span class="region-title">EMEA</span>
+                    <i class="ri-earth-line region-icon"></i>
+                </div>
+                <ul class="country-list">
+                    <li class="country-item">Germany</li>
+                    <li class="country-item">Poland</li>
+                    <li class="country-item">South Africa</li>
+                    <li class="country-item">France</li>
+                </ul>
+            </div>
+
+            <!-- Region 3: APAC -->
+            <div class="region-card hover-trigger">
+                <div class="region-header">
+                    <span class="region-title">APAC</span>
+                    <i class="ri-map-pin-range-line region-icon"></i>
+                </div>
+                <ul class="country-list">
+                    <li class="country-item highlight-item"><i class="ri-home-4-fill"></i> China (Huizhou HQ)</li>
+                    <li class="country-item">Japan</li>
+                    <li class="country-item">South Korea</li>
+                    <li class="country-item">Thailand</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Customers -->
+    <section class="section-padding">
+        <h2 class="section-title">KEY <span>CUSTOMERS</span></h2>
+        <div class="section-subtitle">Collaborating with industry leaders in Automotive, Appliance, and New Energy sectors.</div>
+        
+        <div class="customers-grid">
+            <!-- Logo Placeholders (NDA Compliant) -->
+            <div class="client-card hover-trigger">
+                <span class="client-logo-text">OEM / TIER 1</span>
+                <span class="industry-tag">AUTOMOTIVE</span>
+            </div>
+            <div class="client-card hover-trigger">
+                <span class="client-logo-text">EV BRAND</span>
+                <span class="industry-tag">NEW ENERGY</span>
+            </div>
+            <div class="client-card hover-trigger">
+                <span class="client-logo-text">SEATING SYS</span>
+                <span class="industry-tag">AUTOMOTIVE</span>
+            </div>
+            <div class="client-card hover-trigger">
+                <span class="client-logo-text">HOME APPLIANCE</span>
+                <span class="industry-tag">CONSUMER</span>
+            </div>
+            <!-- More placeholders -->
+            <div class="client-card hover-trigger"><i class="ri-car-line" style="font-size:30px; color:#555;"></i><span class="industry-tag">Europe Market</span></div>
+            <div class="client-card hover-trigger"><i class="ri-e-bike-2-line" style="font-size:30px; color:#555;"></i><span class="industry-tag">Battery Case</span></div>
+            <div class="client-card hover-trigger"><i class="ri-global-line" style="font-size:30px; color:#555;"></i><span class="industry-tag">NA Market</span></div>
+            <div class="client-card hover-trigger"><i class="ri-shield-star-line" style="font-size:30px; color:#555;"></i><span class="industry-tag">Safety Parts</span></div>
+        </div>
+        <div class="nda-notice">* Note: Due to Non-Disclosure Agreements (NDA), some specific client logos cannot be displayed publicly.</div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class="section-padding">
+        <h2 class="section-title">FEATURED <span>CASES</span></h2>
+        
+        <div class="case-list">
+            
+            <!-- Case 1: Transfer Die -->
+            <div class="case-item">
+                <div class="case-img-box hover-trigger">
+                    <!-- Replace with real image -->
+                    <img src="img/transfer-die.jpg" alt="Transfer Die">
+                </div>
+                <div class="case-content hover-trigger">
+                    <div class="case-header">
+                        <span class="case-tag">TRANSFER DIE</span>
+                        <h3 class="case-title">A-PILLAR INNER (1180MPa)</h3>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-row">
+                            <i class="ri-error-warning-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>CHALLENGE</h5>
+                                <p>Springback control for Ultra High Strength Steel (UHSS) and surface flatness.</p>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <i class="ri-tools-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>SOLUTION</h5>
+                                <p>AutoForm simulation compensation & 2000T press tryout with servo feeder.</p>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <i class="ri-checkbox-circle-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>RESULT</h5>
+                                <p>95% dimensional pass rate on T1; Successful PPAP within 14 weeks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 2: Progressive Die -->
+            <div class="case-item reverse">
+                <div class="case-img-box hover-trigger">
+                    <!-- Replace with real image -->
+                    <img src="img/progressive-die.jpg" alt="Progressive Die">
+                </div>
+                <div class="case-content hover-trigger">
+                    <div class="case-header">
+                        <span class="case-tag">PROGRESSIVE DIE</span>
+                        <h3 class="case-title">SEAT TRACK RAIL</h3>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-row">
+                            <i class="ri-error-warning-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>CHALLENGE</h5>
+                                <p>Tight tolerance (+/- 0.05mm) over 2.5 meters length and high SPM requirement.</p>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <i class="ri-tools-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>SOLUTION</h5>
+                                <p>Precision wire-cutting inserts & optimized strip layout for stable feeding.</p>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <i class="ri-checkbox-circle-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>RESULT</h5>
+                                <p>Stable production at 40 SPM; Tool life guarantee > 500k hits.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 3: Checking Fixture -->
+            <div class="case-item">
+                <div class="case-img-box hover-trigger">
+                    <!-- Replace with real image -->
+                    <img src="img/checking-fixture.jpg" alt="Checking Fixture">
+                </div>
+                <div class="case-content hover-trigger">
+                    <div class="case-header">
+                        <span class="case-tag">CHECKING FIXTURE</span>
+                        <h3 class="case-title">DOOR ASSEMBLY GAUGE</h3>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-row">
+                            <i class="ri-error-warning-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>CHALLENGE</h5>
+                                <p>Large size assembly with multiple movable clamps and digital indicators.</p>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <i class="ri-tools-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>SOLUTION</h5>
+                                <p>Aluminium base design for weight reduction & CMM 100% calibration.</p>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <i class="ri-checkbox-circle-line detail-icon"></i>
+                            <div class="detail-text">
+                                <h5>RESULT</h5>
+                                <p>R&R report passed; Delivered to Mexico plant with user manual.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Choose MLD & Testimonial -->
+    <section class="section-padding">
+        <h2 class="section-title">WHY <span>CHOOSE US</span></h2>
+        
+        <div class="why-grid">
+            <div class="why-card">
+                <i class="ri-rocket-line"></i>
+                <h4>FAST DELIVERY</h4>
+                <p>Optimized process flow and 24/7 machining shifts ensure we meet your project timeline.</p>
+            </div>
+            <div class="why-card">
+                <i class="ri-shield-check-line"></i>
+                <h4>HIGH QUALITY</h4>
+                <p>ISO certified. 100% CMM inspection for all critical dimensions before shipment.</p>
+            </div>
+            <div class="why-card">
+                <i class="ri-money-dollar-circle-line"></i>
+                <h4>COMPETITIVE COST</h4>
+                <p>Lean manufacturing in Huizhou allows us to offer global standard tooling at China cost.</p>
+            </div>
+            <div class="why-card">
+                <i class="ri-user-settings-line"></i>
+                <h4>ENGLISH SUPPORT</h4>
+                <p>Professional engineering team that communicates fluently in technical English.</p>
+            </div>
+        </div>
+
+        <div class="testimonial-block">
+            <h3 style="color:#fff; margin-bottom:20px; font-family:var(--font-display);">CUSTOMER VOICE</h3>
+            <div class="testimonial-box hover-trigger">
+                <p class="quote-text">"MLD Tooling has been our reliable partner for over 5 years. Their ability to handle complex transfer dies for high-strength steel parts is impressive. The tryout quality is exceptional."</p>
+                <div class="quote-author">MR. DAVID S.</div>
+                <div class="quote-role">Procurement Manager, Tier 1 Automotive Supplier (USA)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-cta">
+            <h2 style="color:#fff; margin-bottom:20px;">START YOUR <br> <span style="color:var(--accent)">PROJECT NOW</span></h2>
+            <a href="mailto:rohan@mld-tool.com" style="color:#888; text-decoration:none; font-size:18px;">rohan@mld-tool.com</a>
+        </div>
+        <div class="copyright" style="margin-top:50px;">
+            © 2025 HUIZHOU MLD TOOLING CO., LTD.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // Init GSAP & Lenis
+        gsap.registerPlugin(ScrollTrigger);
+        const lenis = new Lenis({ duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 }); });
+        gsap.ticker.add(() => {
+            const dt = 1.0 - Math.pow(1.0 - 0.15, gsap.ticker.deltaRatio());
+            cursorX += (mouseX - cursorX) * dt; cursorY += (mouseY - cursorY) * dt;
+            gsap.set(cursorCircle, { x: cursorX, y: cursorY });
+        });
+        document.querySelectorAll('.hover-trigger, a').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+        });
+
+        // Animations
+        gsap.from(".case-hero h1", { opacity: 0, y: 50, duration: 1, delay: 0.2 });
+        gsap.from(".case-hero p", { opacity: 0, x: -20, duration: 1, delay: 0.5 });
+        
+        gsap.utils.toArray('section').forEach(sec => {
+            gsap.from(sec.children, {
+                scrollTrigger: { trigger: sec, start: "top 85%" },
+                opacity: 0, y: 30, duration: 0.8, stagger: 0.1
+            });
+        });
+
+        // Canvas Background
+        const canvas = document.getElementById('webgl-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        function initCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
+        class Particle {
+            constructor() { this.x = Math.random()*width; this.y = Math.random()*height; this.vx = (Math.random()-.5)*.5; this.vy = (Math.random()-.5)*.5; this.size = Math.random()*1.5; }
+            update() { this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>width)this.vx*=-1; if(this.y<0||this.y>height)this.vy*=-1; }
+            draw() { ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); }
+        }
+        function createParticles() { particles=[]; for(let i=0;i<(width>768?80:40);i++) particles.push(new Particle()); }
+        function animate() { ctx.clearRect(0,0,width,height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); }
+        window.addEventListener('resize', ()=>{initCanvas();createParticles();});
+        initCanvas(); createParticles(); animate();
+    </script>
+</body>
+</html>
