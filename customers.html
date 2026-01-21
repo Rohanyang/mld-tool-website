@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -94,7 +94,10 @@
         width: 40px;
         height: 40px;
         border: 1px solid rgba(255, 255, 255, 0.5);
-        transition: width 0.3s, height 0.3s, background-color 0.3s;
+        transition:
+          width 0.3s,
+          height 0.3s,
+          background-color 0.3s;
       }
       body.hovered .cursor-circle {
         width: 80px;
@@ -935,8 +938,46 @@
           >rohan@mld-tool.com</a
         >
       </div>
-      <div class="copyright" style="margin-top: 50px">
-        © 2025 HUIZHOU MLD TOOLING CO., LTD.
+      <div class="copyright">
+        © 2026 HUIZHOU MLD TOOLING CO., LTD. ALL RIGHTS RESERVED.
+
+        <span class="copyright-social">
+          <a
+            href="http://linkedin.com/in/rohanyang"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <i class="ri-linkedin-fill"></i>
+          </a>
+          <a
+            href="https://www.facebook.com/profile.php?id=61585398638389"
+            target="_blank"
+            aria-label="Facebook"
+          >
+            <i class="ri-facebook-fill"></i>
+          </a>
+          <a
+            href="https://www.youtube.com/@MLD-TOOL"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <i class="ri-youtube-fill"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/mldtool/"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <i class="ri-instagram-line"></i>
+          </a>
+          <a
+            href="https://medium.com/@mld-tool"
+            target="_blank"
+            aria-label="Medium"
+          >
+            <i class="ri-medium-fill"></i>
+          </a>
+        </span>
       </div>
     </footer>
 
@@ -978,10 +1019,10 @@
       });
       document.querySelectorAll(".hover-trigger, a").forEach((el) => {
         el.addEventListener("mouseenter", () =>
-          document.body.classList.add("hovered")
+          document.body.classList.add("hovered"),
         );
         el.addEventListener("mouseleave", () =>
-          document.body.classList.remove("hovered")
+          document.body.classList.remove("hovered"),
         );
       });
 
