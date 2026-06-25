@@ -1,0 +1,1521 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>MLD Tooling Products | Transfer Dies, Progressive Dies, Tandem Dies & Stamped Parts</title>
+    <meta
+      name="description"
+      content="Explore MLD Tooling's product portfolio including transfer dies, progressive dies, tandem dies and stamped parts for automotive, appliance and industrial metal forming applications."
+    />
+    <meta
+      name="keywords"
+      content="MLD Tooling products, transfer dies, progressive dies, tandem dies, stamped parts, automotive stamping dies, tooling portfolio, stamping die manufacturer China"
+    />
+    <link rel="canonical" href="https://mld-tool.net/products.html" />
+
+    <meta property="og:title" content="MLD Tooling Products | Transfer Dies, Progressive Dies, Tandem Dies & Stamped Parts" />
+    <meta
+      property="og:description"
+      content="View MLD Tooling's product portfolio for transfer dies, progressive dies, tandem dies and stamped metal parts."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mld-tool.net/products.html" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MLD Tooling Products | Transfer Dies, Progressive Dies & Stamped Parts" />
+    <meta
+      name="twitter:description"
+      content="Automotive tooling portfolio from MLD Tooling, covering transfer dies, progressive dies, tandem dies and stamped products."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;700&family=Syncopate:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-dark: #050505;
+        --text-light: #e0e0e0;
+        --accent: #00f2ea;
+        --accent-dim: rgba(0, 242, 234, 0.1);
+        --line: rgba(255, 255, 255, 0.1);
+        --font-main: "Manrope", "Noto Sans SC", sans-serif;
+        --font-display: "Syncopate", sans-serif;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+      html { scroll-behavior: auto; }
+      body {
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        font-family: var(--font-main);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .noise-overlay {
+        position: fixed;
+        inset: 0;
+        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.4;
+      }
+
+      #webgl-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.55;
+      }
+
+      .cursor-dot,
+      .cursor-circle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      .cursor-dot { width: 8px; height: 8px; background: var(--accent); }
+      .cursor-circle {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        transition: width 0.3s, height 0.3s, background-color 0.3s;
+      }
+      body.hovered .cursor-circle {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.1);
+        border-color: transparent;
+        backdrop-filter: blur(2px);
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 30px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        mix-blend-mode: difference;
+      }
+      .logo {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 20px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #fff;
+      }
+      .logo i { color: var(--accent); font-size: 24px; }
+      .nav-menu { display: flex; gap: 34px; align-items: center; }
+      .nav-link {
+        font-family: var(--font-display);
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        color: #fff;
+        position: relative;
+        transition: color 0.3s;
+        text-transform: uppercase;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .nav-link:hover, .nav-link.active { color: var(--accent); }
+      .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+      .menu-btn-mobile {
+        display: none;
+        font-family: var(--font-display);
+        font-size: 14px;
+        letter-spacing: 1px;
+        align-items: center;
+        gap: 10px;
+      }
+      .mobile-nav-overlay {
+        position: fixed;
+        inset: 0;
+        height: 100vh;
+        background: rgba(5, 5, 5, 0.98);
+        backdrop-filter: blur(15px);
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+      .mobile-nav-overlay.active { opacity: 1; pointer-events: auto; }
+      .mobile-nav-close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+      }
+      .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        text-align: center;
+      }
+      .m-link {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      .m-link:hover { color: var(--accent); }
+
+      .hero {
+        min-height: 82vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 140px 6vw 80px;
+        position: relative;
+      }
+      .eyebrow {
+        font-family: var(--font-display);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 3px;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(48px, 9vw, 150px);
+        line-height: 0.92;
+        font-weight: 700;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.82);
+        text-transform: uppercase;
+        max-width: 1280px;
+      }
+      .hero h1 strong {
+        display: block;
+        color: #fff;
+        -webkit-text-stroke: 0;
+      }
+      .hero-subtitle {
+        margin-top: 40px;
+        max-width: 760px;
+        color: #bdbdbd;
+        border-left: 2px solid var(--accent);
+        padding-left: 22px;
+        line-height: 1.75;
+        font-size: 16px;
+        font-weight: 300;
+      }
+      .category-jump {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 44px;
+      }
+      .jump-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.03);
+        color: #aaa;
+        font-family: var(--font-display);
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .jump-btn:hover {
+        color: #000;
+        background: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 20px var(--accent-dim);
+      }
+
+      .marquee-section {
+        padding: 62px 0;
+        background: var(--accent);
+        color: var(--bg-dark);
+        width: 110vw;
+        margin-left: -5vw;
+        transform: rotate(-2deg) scale(1.05);
+        margin-top: 30px;
+        margin-bottom: 100px;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        overflow: hidden;
+      }
+      .marquee-track { display: flex; gap: 50px; white-space: nowrap; }
+      .marquee-item {
+        font-family: var(--font-display);
+        font-size: clamp(28px, 4vw, 58px);
+        font-weight: 700;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        flex-shrink: 0;
+      }
+
+      .catalog-section {
+        padding: 110px 0 70px;
+        position: relative;
+      }
+      .section-inner { padding: 0 6vw; }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 28px;
+        margin-bottom: 44px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--line);
+      }
+      .section-kicker {
+        font-family: var(--font-display);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .section-title {
+        font-size: clamp(34px, 4.8vw, 74px);
+        font-weight: 300;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .section-title span {
+        display: block;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .section-copy {
+        max-width: 520px;
+        color: #888;
+        line-height: 1.7;
+        font-size: 14px;
+      }
+      .scroll-controls {
+        display: flex;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .scroll-btn {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.03);
+        color: #fff;
+        font-size: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+      }
+      .scroll-btn:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #000;
+      }
+      .horizontal-rail {
+        display: flex;
+        gap: 32px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        padding: 10px 6vw 38px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 242, 234, 0.5) rgba(255, 255, 255, 0.06);
+      }
+      .horizontal-rail::-webkit-scrollbar { height: 8px; }
+      .horizontal-rail::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.06); }
+      .horizontal-rail::-webkit-scrollbar-thumb {
+        background: rgba(0, 242, 234, 0.55);
+        border-radius: 20px;
+      }
+
+      .tool-card {
+        min-width: min(640px, 78vw);
+        width: min(640px, 78vw);
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        scroll-snap-align: start;
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.45s ease, border-color 0.3s, box-shadow 0.3s;
+      }
+      .tool-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(0, 242, 234, 0.75);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 22px var(--accent-dim);
+      }
+      .tool-img {
+        position: relative;
+        height: 390px;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(0, 242, 234, 0.08), transparent 35%),
+          #0b0b0b;
+        overflow: hidden;
+      }
+      .tool-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) contrast(1.08);
+        transition: transform 0.8s ease, filter 0.5s ease;
+      }
+      .tool-card:hover .tool-img img {
+        filter: grayscale(0%) contrast(1);
+        transform: scale(1.045);
+      }
+      .tool-index {
+        position: absolute;
+        top: 22px;
+        right: 24px;
+        font-family: var(--font-display);
+        font-size: 13px;
+        color: var(--accent);
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(0, 242, 234, 0.35);
+        padding: 8px 10px;
+      }
+      .tool-info { padding: 26px 28px 30px; }
+      .tool-tag {
+        font-family: var(--font-display);
+        font-size: 10px;
+        letter-spacing: 1.7px;
+        color: var(--accent);
+        text-transform: uppercase;
+      }
+      .tool-info h3 {
+        font-family: var(--font-display);
+        color: #fff;
+        font-size: 18px;
+        margin: 12px 0 10px;
+        line-height: 1.3;
+      }
+      .tool-info p {
+        color: #888;
+        line-height: 1.65;
+        font-size: 14px;
+      }
+
+      .parts-section { padding: 120px 6vw 100px; }
+      .parts-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 18px;
+      }
+      .part-card {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        background:
+          linear-gradient(135deg, rgba(0, 242, 234, 0.07), transparent 45%),
+          #0b0b0b;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        transition: transform 0.35s ease, border-color 0.3s, box-shadow 0.3s;
+      }
+      .part-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(0, 242, 234, 0.7);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.48);
+      }
+      .part-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) contrast(1.08);
+        transition: transform 0.6s ease, filter 0.4s ease;
+      }
+      .part-card:hover img {
+        transform: scale(1.08);
+        filter: grayscale(0%) contrast(1);
+      }
+      .part-overlay {
+        position: absolute;
+        inset: auto 0 0;
+        padding: 40px 14px 14px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .part-overlay span {
+        font-family: var(--font-display);
+        font-size: 9px;
+        color: var(--accent);
+        letter-spacing: 1px;
+      }
+      .part-overlay strong {
+        font-size: 12px;
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .cta-band {
+        margin: 30px 6vw 120px;
+        padding: 70px 6vw;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background:
+          radial-gradient(circle at 75% 20%, rgba(0, 242, 234, 0.12), transparent 35%),
+          rgba(255, 255, 255, 0.025);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 34px;
+      }
+      .cta-band h2 {
+        font-family: var(--font-display);
+        font-size: clamp(28px, 4.5vw, 68px);
+        line-height: 1.05;
+        color: #fff;
+      }
+      .cta-band h2 span { color: var(--accent); }
+      .cta-band p {
+        color: #888;
+        line-height: 1.7;
+        max-width: 520px;
+        margin-top: 18px;
+      }
+      .btn-glow {
+        position: relative;
+        padding: 22px 46px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 100px;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.3s;
+        text-decoration: none;
+        flex-shrink: 0;
+      }
+      .btn-glow:hover { border-color: var(--accent); }
+      .btn-text {
+        position: relative;
+        z-index: 2;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #fff;
+        font-size: 16px;
+      }
+      .btn-fill {
+        position: absolute;
+        inset: 0;
+        background: var(--accent);
+        transform: scale(0);
+        border-radius: 50%;
+        transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 1;
+      }
+      .btn-glow:hover .btn-fill { transform: scale(1.6); }
+      .btn-glow:hover .btn-text { color: #000; }
+
+      footer {
+        padding: 50px 6vw 42px;
+        background: #020202;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+        color: #555;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .footer-social { display: flex; gap: 14px; }
+      .footer-social a {
+        color: #666;
+        text-decoration: none;
+        font-size: 18px;
+        transition: 0.3s;
+      }
+      .footer-social a:hover { color: var(--accent); }
+
+      @media (max-width: 1100px) {
+        .parts-grid { grid-template-columns: repeat(4, 1fr); }
+      }
+
+      @media (max-width: 768px) {
+        * { cursor: auto; }
+        .cursor-dot, .cursor-circle { display: none; }
+        header { padding: 20px 30px; }
+        .nav-menu { display: none; }
+        .menu-btn-mobile { display: flex; }
+        .hero { min-height: auto; padding: 120px 6vw 70px; }
+        .hero h1 { font-size: 12vw; }
+        .category-jump { flex-direction: column; align-items: stretch; }
+        .jump-btn { justify-content: space-between; }
+        .section-head { flex-direction: column; align-items: flex-start; }
+        .scroll-controls { display: none; }
+        .horizontal-rail { gap: 22px; padding-bottom: 24px; }
+        .tool-card { min-width: 86vw; width: 86vw; }
+        .tool-img { height: 260px; }
+        .parts-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .cta-band { flex-direction: column; align-items: flex-start; padding: 46px 8vw; }
+        .btn-glow { width: 100%; }
+        footer { flex-direction: column; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="mobile-nav-overlay">
+      <div class="mobile-nav-close hover-trigger"><i class="ri-close-line"></i> CLOSE</div>
+      <div class="mobile-nav-links">
+        <a href="/" class="m-link">HOME</a>
+        <a href="/products.html" class="m-link">PRODUCTS</a>
+        <a href="/facility.html" class="m-link">FACILITY</a>
+        <a href="/customers.html" class="m-link">CUSTOMERS</a>
+        <a href="/#contact" class="m-link">CONTACT</a>
+      </div>
+    </div>
+
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+    <canvas id="webgl-canvas"></canvas>
+
+    <header class="hover-trigger">
+      <a href="/" class="logo hover-trigger"><i class="ri-settings-4-fill"></i> MLD TOOLING</a>
+      <nav class="nav-menu">
+        <a href="/" class="nav-link hover-trigger">HOME</a>
+        <a href="/products.html" class="nav-link hover-trigger active">PRODUCTS</a>
+        <a href="/facility.html" class="nav-link hover-trigger">FACILITY</a>
+        <a href="/customers.html" class="nav-link hover-trigger">CUSTOMERS</a>
+        <a href="/#contact" class="nav-link hover-trigger">CONTACT</a>
+      </nav>
+      <div class="menu-btn-mobile hover-trigger">
+        <span>MENU</span>
+        <div style="width: 30px; height: 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;">
+          <span style="width: 100%; height: 1px; background: #fff"></span>
+          <span style="width: 60%; height: 1px; background: #fff"></span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="eyebrow hover-trigger">Product Catalog / Tooling Portfolio</div>
+        <h1 class="hover-trigger">TOOLING <strong>PRODUCTS</strong> PORTFOLIO</h1>
+        <div class="hero-subtitle hover-trigger">
+          Explore MLD Tooling's portfolio across transfer dies, progressive dies, tandem dies and stamped products.<br />
+          浏览 MLD 在传送模、连续模、单工序模及冲压产品领域的制造能力展示。
+        </div>
+        <div class="category-jump">
+          <a href="#transfer" class="jump-btn hover-trigger">TRANSFER DIES <i class="ri-arrow-down-line"></i></a>
+          <a href="#progressive" class="jump-btn hover-trigger">PROGRESSIVE DIES <i class="ri-arrow-down-line"></i></a>
+          <a href="#tandem" class="jump-btn hover-trigger">TANDEM DIES <i class="ri-arrow-down-line"></i></a>
+          <a href="#parts" class="jump-btn hover-trigger">STAMPED PRODUCTS <i class="ri-arrow-down-line"></i></a>
+        </div>
+      </section>
+
+      <section class="marquee-section" aria-hidden="true">
+        <div class="marquee-track">
+          <div class="marquee-item">TRANSFER DIES <i class="ri-add-line"></i> PROGRESSIVE DIES <i class="ri-add-line"></i> TANDEM DIES <i class="ri-add-line"></i> STAMPED PARTS <i class="ri-add-line"></i> TOOLING PORTFOLIO <i class="ri-add-line"></i></div>
+          <div class="marquee-item">TRANSFER DIES <i class="ri-add-line"></i> PROGRESSIVE DIES <i class="ri-add-line"></i> TANDEM DIES <i class="ri-add-line"></i> STAMPED PARTS <i class="ri-add-line"></i> TOOLING PORTFOLIO <i class="ri-add-line"></i></div>
+        </div>
+      </section>
+
+      <section class="catalog-section" id="transfer">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">01 / Large Format Tooling</div>
+              <h2 class="section-title">TRANSFER <span>DIES</span></h2>
+            </div>
+            <p class="section-copy">Large-format tooling solutions for structural and body panel applications.<br />大型传送模解决方案，适用于汽车结构件与覆盖件冲压。</p>
+            <div class="scroll-controls">
+              <button class="scroll-btn hover-trigger" data-scroll="transfer-rail" data-dir="-1" aria-label="Scroll left"><i class="ri-arrow-left-line"></i></button>
+              <button class="scroll-btn hover-trigger" data-scroll="transfer-rail" data-dir="1" aria-label="Scroll right"><i class="ri-arrow-right-line"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="horizontal-rail" id="transfer-rail">
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-01.jpg" alt="MLD Tooling Transfer Die 01" loading="lazy" />
+              <span class="tool-index">01</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 01</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-02.jpg" alt="MLD Tooling Transfer Die 02" loading="lazy" />
+              <span class="tool-index">02</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 02</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-03.jpg" alt="MLD Tooling Transfer Die 03" loading="lazy" />
+              <span class="tool-index">03</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 03</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-04.jpg" alt="MLD Tooling Transfer Die 04" loading="lazy" />
+              <span class="tool-index">04</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 04</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-05.jpg" alt="MLD Tooling Transfer Die 05" loading="lazy" />
+              <span class="tool-index">05</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 05</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-06.jpg" alt="MLD Tooling Transfer Die 06" loading="lazy" />
+              <span class="tool-index">06</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 06</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-07.jpg" alt="MLD Tooling Transfer Die 07" loading="lazy" />
+              <span class="tool-index">07</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 07</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-08.jpg" alt="MLD Tooling Transfer Die 08" loading="lazy" />
+              <span class="tool-index">08</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 08</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-09.jpg" alt="MLD Tooling Transfer Die 09" loading="lazy" />
+              <span class="tool-index">09</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 09</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/transfer-10.jpg" alt="MLD Tooling Transfer Die 10" loading="lazy" />
+              <span class="tool-index">10</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TRANSFER DIE</span>
+              <h3>Transfer Die Project 10</h3>
+              <p>Large transfer die placeholder for automotive structural and body panel tooling.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="catalog-section" id="progressive">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">02 / Continuous Production</div>
+              <h2 class="section-title">PROGRESSIVE <span>DIES</span></h2>
+            </div>
+            <p class="section-copy">High-efficiency progressive tooling for precision and volume production.<br />高效率连续模解决方案，适用于高精度批量连续冲压。</p>
+            <div class="scroll-controls">
+              <button class="scroll-btn hover-trigger" data-scroll="progressive-rail" data-dir="-1" aria-label="Scroll left"><i class="ri-arrow-left-line"></i></button>
+              <button class="scroll-btn hover-trigger" data-scroll="progressive-rail" data-dir="1" aria-label="Scroll right"><i class="ri-arrow-right-line"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="horizontal-rail" id="progressive-rail">
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-01.jpg" alt="MLD Tooling Progressive Die 01" loading="lazy" />
+              <span class="tool-index">01</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 01</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-02.jpg" alt="MLD Tooling Progressive Die 02" loading="lazy" />
+              <span class="tool-index">02</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 02</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-03.jpg" alt="MLD Tooling Progressive Die 03" loading="lazy" />
+              <span class="tool-index">03</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 03</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-04.jpg" alt="MLD Tooling Progressive Die 04" loading="lazy" />
+              <span class="tool-index">04</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 04</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-05.jpg" alt="MLD Tooling Progressive Die 05" loading="lazy" />
+              <span class="tool-index">05</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 05</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-06.jpg" alt="MLD Tooling Progressive Die 06" loading="lazy" />
+              <span class="tool-index">06</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 06</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-07.jpg" alt="MLD Tooling Progressive Die 07" loading="lazy" />
+              <span class="tool-index">07</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 07</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-08.jpg" alt="MLD Tooling Progressive Die 08" loading="lazy" />
+              <span class="tool-index">08</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 08</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-09.jpg" alt="MLD Tooling Progressive Die 09" loading="lazy" />
+              <span class="tool-index">09</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 09</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/progressive-10.jpg" alt="MLD Tooling Progressive Die 10" loading="lazy" />
+              <span class="tool-index">10</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">PROGRESSIVE DIE</span>
+              <h3>Progressive Die Project 10</h3>
+              <p>Progressive die placeholder for high-volume precision metal stamping production.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="catalog-section" id="tandem">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">03 / Single-operation Die Sets</div>
+              <h2 class="section-title">TANDEM <span>DIES</span></h2>
+            </div>
+            <p class="section-copy">Flexible single-operation die sets for complex forming sequences.<br />单工序模解决方案，适用于复杂成形与分步工艺加工。</p>
+            <div class="scroll-controls">
+              <button class="scroll-btn hover-trigger" data-scroll="tandem-rail" data-dir="-1" aria-label="Scroll left"><i class="ri-arrow-left-line"></i></button>
+              <button class="scroll-btn hover-trigger" data-scroll="tandem-rail" data-dir="1" aria-label="Scroll right"><i class="ri-arrow-right-line"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="horizontal-rail" id="tandem-rail">
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-01.jpg" alt="MLD Tooling Tandem Die 01" loading="lazy" />
+              <span class="tool-index">01</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 01</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-02.jpg" alt="MLD Tooling Tandem Die 02" loading="lazy" />
+              <span class="tool-index">02</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 02</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-03.jpg" alt="MLD Tooling Tandem Die 03" loading="lazy" />
+              <span class="tool-index">03</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 03</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-04.jpg" alt="MLD Tooling Tandem Die 04" loading="lazy" />
+              <span class="tool-index">04</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 04</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-05.jpg" alt="MLD Tooling Tandem Die 05" loading="lazy" />
+              <span class="tool-index">05</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 05</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-06.jpg" alt="MLD Tooling Tandem Die 06" loading="lazy" />
+              <span class="tool-index">06</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 06</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-07.jpg" alt="MLD Tooling Tandem Die 07" loading="lazy" />
+              <span class="tool-index">07</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 07</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-08.jpg" alt="MLD Tooling Tandem Die 08" loading="lazy" />
+              <span class="tool-index">08</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 08</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-09.jpg" alt="MLD Tooling Tandem Die 09" loading="lazy" />
+              <span class="tool-index">09</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 09</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+          <article class="tool-card hover-trigger">
+            <div class="tool-img">
+              <img src="product-img/tandem-10.jpg" alt="MLD Tooling Tandem Die 10" loading="lazy" />
+              <span class="tool-index">10</span>
+            </div>
+            <div class="tool-info">
+              <span class="tool-tag">TANDEM DIE</span>
+              <h3>Tandem Die Project 10</h3>
+              <p>Tandem die placeholder for flexible forming, trimming and single-operation tooling.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="parts-section" id="parts">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">04 / Stamped Components</div>
+            <h2 class="section-title">STAMPED <span>PRODUCTS</span></h2>
+          </div>
+          <p class="section-copy">Selected stamped components and sample parts from real production projects.<br />精选冲压产品与样件展示，体现真实量产与工艺能力。</p>
+        </div>
+        <div class="parts-grid">
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-01.jpg" alt="MLD Tooling stamped part 01" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 01</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-02.jpg" alt="MLD Tooling stamped part 02" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 02</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-03.jpg" alt="MLD Tooling stamped part 03" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 03</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-04.jpg" alt="MLD Tooling stamped part 04" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 04</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-05.jpg" alt="MLD Tooling stamped part 05" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 05</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-06.jpg" alt="MLD Tooling stamped part 06" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 06</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-07.jpg" alt="MLD Tooling stamped part 07" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 07</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-08.jpg" alt="MLD Tooling stamped part 08" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 08</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-09.jpg" alt="MLD Tooling stamped part 09" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 09</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-10.jpg" alt="MLD Tooling stamped part 10" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 10</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-11.jpg" alt="MLD Tooling stamped part 11" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 11</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-12.jpg" alt="MLD Tooling stamped part 12" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 12</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-13.jpg" alt="MLD Tooling stamped part 13" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 13</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-14.jpg" alt="MLD Tooling stamped part 14" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 14</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-15.jpg" alt="MLD Tooling stamped part 15" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 15</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-16.jpg" alt="MLD Tooling stamped part 16" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 16</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-17.jpg" alt="MLD Tooling stamped part 17" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 17</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-18.jpg" alt="MLD Tooling stamped part 18" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 18</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-19.jpg" alt="MLD Tooling stamped part 19" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 19</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-20.jpg" alt="MLD Tooling stamped part 20" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 20</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-21.jpg" alt="MLD Tooling stamped part 21" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 21</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-22.jpg" alt="MLD Tooling stamped part 22" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 22</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-23.jpg" alt="MLD Tooling stamped part 23" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 23</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-24.jpg" alt="MLD Tooling stamped part 24" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 24</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-25.jpg" alt="MLD Tooling stamped part 25" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 25</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-26.jpg" alt="MLD Tooling stamped part 26" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 26</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-27.jpg" alt="MLD Tooling stamped part 27" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 27</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-28.jpg" alt="MLD Tooling stamped part 28" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 28</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-29.jpg" alt="MLD Tooling stamped part 29" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 29</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+          <article class="part-card hover-trigger">
+            <img src="product-img/part-30.jpg" alt="MLD Tooling stamped part 30" loading="lazy" />
+            <div class="part-overlay">
+              <span>PART 30</span>
+              <strong>Stamped Product</strong>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-band">
+        <div>
+          <h2>READY TO BUILD <br /><span>YOUR TOOLING?</span></h2>
+          <p>Send your part drawing, tooling specification or project reference. MLD Tooling can support quotation, process review, die design, tryout and inspection.</p>
+        </div>
+        <a href="mailto:rohan@mld-tool.com" class="btn-glow hover-trigger">
+          <div class="btn-fill"></div>
+          <span class="btn-text">SEND DRAWING / RFQ</span>
+        </a>
+      </section>
+    </main>
+
+    <footer>
+      <div>© 2026 HUIZHOU MLD TOOLING CO., LTD. ALL RIGHTS RESERVED.</div>
+      <div class="footer-social">
+        <a href="http://linkedin.com/in/rohanyang" target="_blank" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61585398638389" target="_blank" aria-label="Facebook"><i class="ri-facebook-fill"></i></a>
+        <a href="https://www.youtube.com/@MLD-TOOL" target="_blank" aria-label="YouTube"><i class="ri-youtube-fill"></i></a>
+        <a href="https://www.instagram.com/mldtool/" target="_blank" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+        <a href="https://medium.com/@mld-tool" target="_blank" aria-label="Medium"><i class="ri-medium-fill"></i></a>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+      if (window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+      }
+
+      const lenis = window.Lenis
+        ? new Lenis({
+            duration: 1.35,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothTouch: false,
+          })
+        : null;
+
+      function raf(time) {
+        if (lenis) lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const target = link.getAttribute("href");
+          if (!target || target === "#") return;
+          const el = document.querySelector(target);
+          if (!el) return;
+          e.preventDefault();
+          if (lenis) {
+            lenis.scrollTo(target);
+          } else {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      const menuBtn = document.querySelector(".menu-btn-mobile");
+      const mobileNav = document.querySelector(".mobile-nav-overlay");
+      const mobileNavClose = document.querySelector(".mobile-nav-close");
+
+      if (menuBtn && mobileNav && mobileNavClose) {
+        menuBtn.addEventListener("click", () => {
+          mobileNav.classList.add("active");
+          if (lenis) lenis.stop();
+        });
+
+        mobileNavClose.addEventListener("click", () => {
+          mobileNav.classList.remove("active");
+          if (lenis) lenis.start();
+        });
+
+        mobileNav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileNav.classList.remove("active");
+            if (lenis) lenis.start();
+          });
+        });
+      }
+
+      const cursorDot = document.querySelector(".cursor-dot");
+      const cursorCircle = document.querySelector(".cursor-circle");
+      let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (window.gsap) gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 });
+      });
+
+      if (window.gsap) {
+        gsap.ticker.add(() => {
+          const dt = 1.0 - Math.pow(1.0 - 0.15, gsap.ticker.deltaRatio());
+          cursorX += (mouseX - cursorX) * dt;
+          cursorY += (mouseY - cursorY) * dt;
+          gsap.set(cursorCircle, { x: cursorX, y: cursorY });
+        });
+      }
+
+      function bindHover() {
+        document
+          .querySelectorAll(".hover-trigger, a, button, .tool-card, .part-card")
+          .forEach((el) => {
+            el.addEventListener("mouseenter", () => document.body.classList.add("hovered"));
+            el.addEventListener("mouseleave", () => document.body.classList.remove("hovered"));
+          });
+      }
+      bindHover();
+
+      document.querySelectorAll(".scroll-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const rail = document.getElementById(btn.dataset.scroll);
+          if (!rail) return;
+          const dir = Number(btn.dataset.dir || 1);
+          rail.scrollBy({ left: dir * Math.min(680, window.innerWidth * 0.72), behavior: "smooth" });
+        });
+      });
+
+      document.querySelectorAll("img").forEach((img) => {
+        img.addEventListener("error", () => {
+          const label = img.alt || "MLD Tooling";
+          const safeLabel = label.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          const svg =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">' +
+            '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0b0b"/><stop offset="1" stop-color="#022322"/></linearGradient></defs>' +
+            '<rect width="1200" height="800" fill="url(#g)"/>' +
+            '<path d="M0 680 L1200 220" stroke="#00f2ea" stroke-opacity=".14" stroke-width="2"/>' +
+            '<path d="M0 320 L1200 540" stroke="#ffffff" stroke-opacity=".08" stroke-width="2"/>' +
+            '<rect x="70" y="70" width="1060" height="660" fill="none" stroke="#ffffff" stroke-opacity=".14"/>' +
+            '<text x="80" y="405" fill="#00f2ea" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">MLD TOOLING</text>' +
+            '<text x="80" y="455" fill="#ffffff" fill-opacity=".78" font-family="Arial, sans-serif" font-size="44" font-weight="700">' + safeLabel + '</text>' +
+            '<text x="80" y="510" fill="#ffffff" fill-opacity=".35" font-family="Arial, sans-serif" font-size="22">Replace with your project image</text>' +
+            '</svg>';
+          img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+        });
+      });
+
+      const canvas = document.getElementById("webgl-canvas");
+      const ctx = canvas.getContext("2d");
+      let width, height;
+      let particles = [];
+
+      function initCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.size = Math.random() * 1.5;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.fillStyle = "rgba(255, 255, 255, 0.28)";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function createParticles() {
+        particles = [];
+        const count = width > 768 ? 80 : 40;
+        for (let i = 0; i < count; i++) particles.push(new Particle());
+      }
+
+      function animateCanvas() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 150) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(0, 242, 234, ${0.15 - distance / 1000})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animateCanvas);
+      }
+
+      window.addEventListener("resize", () => {
+        initCanvas();
+        createParticles();
+      });
+      initCanvas();
+      createParticles();
+      animateCanvas();
+
+      if (window.gsap) {
+        gsap.from(".hero .eyebrow, .hero h1, .hero-subtitle, .category-jump", {
+          opacity: 0,
+          y: 28,
+          duration: 0.9,
+          stagger: 0.15,
+          delay: 0.15,
+          ease: "power3.out",
+        });
+
+        gsap.to(".marquee-track", {
+          x: "-18%",
+          scrollTrigger: {
+            trigger: ".marquee-section",
+            scrub: 1,
+            start: "top bottom",
+            end: "bottom top",
+          },
+        });
+
+        gsap.utils.toArray(".catalog-section, .parts-section, .cta-band").forEach((section) => {
+          gsap.from(section, {
+            opacity: 0,
+            y: 36,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 82%",
+            },
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
