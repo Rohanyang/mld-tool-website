@@ -9,6 +9,13 @@
   </url>
 
   <url>
+    <loc>https://mld-tool.net/products.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
     <loc>https://mld-tool.net/facility.html</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
